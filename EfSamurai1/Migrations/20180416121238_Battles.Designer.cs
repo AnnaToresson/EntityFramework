@@ -11,9 +11,10 @@ using System;
 namespace EfSamurai1.Migrations
 {
     [DbContext(typeof(SamuraiContext))]
-    partial class SamuraiContextModelSnapshot : ModelSnapshot
+    [Migration("20180416121238_Battles")]
+    partial class Battles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,6 +33,8 @@ namespace EfSamurai1.Migrations
                     b.Property<DateTime>("EndDate");
 
                     b.Property<string>("Name");
+
+                    b.Property<int>("SamuraiId");
 
                     b.Property<DateTime>("StartDate");
 
@@ -74,37 +77,11 @@ namespace EfSamurai1.Migrations
                     b.ToTable("Samurais");
                 });
 
-            modelBuilder.Entity("EfSamurai.Domain.SamuraiInBattle", b =>
-                {
-                    b.Property<int>("SamuraiId");
-
-                    b.Property<int>("BattleId");
-
-                    b.HasKey("SamuraiId", "BattleId");
-
-                    b.HasIndex("BattleId");
-
-                    b.ToTable("SamuraiInBattle");
-                });
-
             modelBuilder.Entity("EfSamurai.Domain.Quote", b =>
                 {
                     b.HasOne("EfSamurai.Domain.Samurai")
                         .WithMany("ListOfQuotes")
                         .HasForeignKey("SamuraiId");
-                });
-
-            modelBuilder.Entity("EfSamurai.Domain.SamuraiInBattle", b =>
-                {
-                    b.HasOne("EfSamurai.Domain.Battle", "Battle")
-                        .WithMany()
-                        .HasForeignKey("BattleId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("EfSamurai.Domain.Samurai", "Samurai")
-                        .WithMany()
-                        .HasForeignKey("SamuraiId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
