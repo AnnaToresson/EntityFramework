@@ -12,7 +12,9 @@ namespace EfSamurai1
     {
 
         public DbSet<Samurai> Samurais { get; set; }
-        public DbSet<Battle> Battles { get; set; } //För att skapa battle tables
+        public DbSet<Battle> Battles { get; set; } //För att skapa battle diagram
+        public DbSet<BattleLog> BattleLog { get; set; }
+
 
 
 
@@ -21,7 +23,7 @@ namespace EfSamurai1
             optionsBuilder.UseSqlServer(
               "Server = (localdb)\\mssqllocaldb; Database = EfSamurai; Trusted_Connection = True; ");
         }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)//För att skapa ett nytt diagram med många till många
         {
             modelBuilder.Entity<SamuraiInBattle>()
                 .HasKey(sb => new { sb.SamuraiId, sb.BattleId });

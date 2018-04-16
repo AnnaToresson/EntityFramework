@@ -11,9 +11,10 @@ using System;
 namespace EfSamurai1.Migrations
 {
     [DbContext(typeof(SamuraiContext))]
-    partial class SamuraiContextModelSnapshot : ModelSnapshot
+    [Migration("20180416124737_battleLoggen")]
+    partial class battleLoggen
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,8 +25,6 @@ namespace EfSamurai1.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("BattleLogId");
 
                     b.Property<bool>("Brutal");
 
@@ -39,35 +38,15 @@ namespace EfSamurai1.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BattleLogId");
-
                     b.ToTable("Battles");
-                });
-
-            modelBuilder.Entity("EfSamurai.Domain.BattleEvent", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("BattleLogId");
-
-                    b.Property<string>("Name");
-
-                    b.Property<string>("Summary");
-
-                    b.Property<DateTime>("Time");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BattleLogId");
-
-                    b.ToTable("BattleEvent");
                 });
 
             modelBuilder.Entity("EfSamurai.Domain.BattleLog", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<int>("BattlesId");
 
                     b.Property<string>("Name");
 
@@ -121,21 +100,6 @@ namespace EfSamurai1.Migrations
                     b.HasIndex("BattleId");
 
                     b.ToTable("SamuraiInBattle");
-                });
-
-            modelBuilder.Entity("EfSamurai.Domain.Battle", b =>
-                {
-                    b.HasOne("EfSamurai.Domain.BattleLog", "BattleLog")
-                        .WithMany()
-                        .HasForeignKey("BattleLogId");
-                });
-
-            modelBuilder.Entity("EfSamurai.Domain.BattleEvent", b =>
-                {
-                    b.HasOne("EfSamurai.Domain.BattleLog")
-                        .WithMany("Event")
-                        .HasForeignKey("BattleLogId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("EfSamurai.Domain.Quote", b =>
